@@ -1,6 +1,6 @@
 from flask import Flask
 from dbcreds import production_mode
-import endpoints.consultant, endpoints.consultant_login, endpoints.appointments, endpoints.college, endpoints.student_admin, endpoints.application_status, endpoints.courses, endpoints.visa, endpoints.image, endpoints.student_side, endpoints.student_file_name
+import endpoints.consultant, endpoints.consultant_login, endpoints.college, endpoints.student_admin, endpoints.application_status, endpoints.programs, endpoints.visa, endpoints.image, endpoints.student_side, endpoints.student_file_name
 from flask_cors import CORS
 
 # calling the Flask function which will return a value that will be used in my API
@@ -120,20 +120,20 @@ def patch_application_status():
     return endpoints.application_status.patch()
 
 ##############################################################################
-# COURSES #
+# PROGRAMS #
 ##############################################################################
  
-@app.post('/api/courses')
-def post_course():
-    return endpoints.courses.post()
+@app.post('/api/program')
+def post_program():
+    return endpoints.programs.post()
 
-@app.get('/api/courses')
-def get_all_courses():
-    return endpoints.courses.get()
+@app.get('/api/program')
+def get_all_programs():
+    return endpoints.programs.get()
 
-@app.patch('/api/courses')
-def patch_course():
-    return endpoints.courses.patch()
+@app.patch('/api/program')
+def patch_program():
+    return endpoints.programs.patch()
 
 ##############################################################################
 # VISA #
