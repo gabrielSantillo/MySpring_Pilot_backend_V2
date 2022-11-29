@@ -17,7 +17,7 @@ def patch():
 
         # in case the response from the function is "valid" will keep going with the processes of adding an appointment by calling a fuction that will verify if the user sent the correct key values
 
-        is_valid = check_endpoint_info(request.json, ['email', 'student_id'])
+        is_valid = check_endpoint_info(request.json, ['student_id'])
         if (is_valid != None):
             return make_response(json.dumps(is_valid, default=str), 400)
 

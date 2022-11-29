@@ -98,3 +98,35 @@ def token_validation_student(token):
         return last_seen
 
 
+def organize_response(response):
+    orders = []
+    ids = []
+
+    for data in response:
+        if (data['id'] in ids):
+            menu_item = {
+                'name': data['name'],
+                'price': data['price'],
+                'menu_item_id': data['menu_item_id'],
+                'description': data['description'],
+                'image_url': data['image_url']
+            }
+            item['menu_items'].append(menu_item)
+        else:
+            ids.append(data['id'])
+
+            item = {
+                'id': data['id'],
+                'restaurant_id': data['restaurant_id'],
+                'is_confirmed': data['is_confirmed'],
+                'is_complete': data['is_complete'],
+                'menu_items': [{
+                    'name': data['name'],
+                    'price': data['price'],
+                    'menu_item_id': data['menu_item_id'],
+                    'description': data['description'],
+                    'image_url': data['image_url']
+                }]
+            }
+            orders.append(item)
+    return orders
