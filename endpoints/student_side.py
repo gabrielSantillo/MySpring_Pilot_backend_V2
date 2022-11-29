@@ -32,11 +32,10 @@ def patch():
                                            'student_id', 'first_name', 'last_name', 'email', 'password', 'salt', 'cell_number', 'birth_date', 'marital_status', 'have_passport', 'contract_signed', 'contract_date', 'english_level', 'app_form', 'intake', 'program_id', 'consultant_id'])
 
         token = secrets.token_hex(nbytes=None)
-        salt = uuid4().hex
 
         # adding a new student
         results = run_statement('CALL add_student_personal_info(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [s['student_id'], s['first_name'], 
-        s['last_name'], s['email'], s['password'], salt, s['cell_number'], s['birth_date'], s['marital_status'], 
+        s['last_name'], s['email'], s['cell_number'], s['birth_date'], s['marital_status'], 
         s['have_passport'], s['contract_signed'], s['contract_date'], s['english_level'], s['app_form'], s['intake'],
         s['program_id'], s['consultant_id'], token])
 
