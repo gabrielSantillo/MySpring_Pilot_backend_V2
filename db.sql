@@ -128,7 +128,7 @@ CREATE TABLE `consultant_session` (
 
 LOCK TABLES `consultant_session` WRITE;
 /*!40000 ALTER TABLE `consultant_session` DISABLE KEYS */;
-INSERT INTO `consultant_session` VALUES (4,1,'21b87046f930e7454593b8cabe7223a801b855c17e13b9cc7b21a35d4d5922e6','2022-11-24 18:11:18','2022-11-22 14:25:38');
+INSERT INTO `consultant_session` VALUES (4,1,'21b87046f930e7454593b8cabe7223a801b855c17e13b9cc7b21a35d4d5922e6','2022-11-29 14:15:27','2022-11-22 14:25:38');
 /*!40000 ALTER TABLE `consultant_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +285,7 @@ CREATE TABLE `visa` (
   PRIMARY KEY (`id`),
   KEY `visa_FK` (`student_id`),
   CONSTRAINT `visa_FK` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,6 +294,7 @@ CREATE TABLE `visa` (
 
 LOCK TABLES `visa` WRITE;
 /*!40000 ALTER TABLE `visa` DISABLE KEYS */;
+INSERT INTO `visa` VALUES (1,17,1,'2022-11-03',0,'Immiwise','2022-11-29 14:13:23');
 /*!40000 ALTER TABLE `visa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1082,13 +1083,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_visa`()
 begin
-	select v.id as visa_id, v.student_id as student_id, convert(a.first_name using utf8) as first_name,
-	convert(a.last_name using utf8) as last_name,
+	select v.id as visa_id, v.student_id as student_id, convert(s.first_name using utf8) as first_name,
+	convert(s.last_name using utf8) as last_name,
 	v.applied as applied, v.applied_at as applied_at,
 	v.approved as approved, convert(v.analyst using utf8) as analyst
 	from visa v
-	inner join student s on s.id = v.student_id
-	inner join appointment a on a.id = s.appointment_id;
+	inner join student s on s.id = v.student_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1518,4 +1518,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-27 18:33:14
+-- Dump completed on 2022-11-29 14:16:01
