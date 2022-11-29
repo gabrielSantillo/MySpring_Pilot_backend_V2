@@ -1,5 +1,5 @@
 from flask import request, make_response
-from apihelpers import check_endpoint_info, check_data_sent, token_validation, send_email
+from apihelpers import check_endpoint_info, check_data_sent, token_validation, send_email, organize_response
 import json
 from dbhelpers import run_statement
 import secrets
@@ -75,7 +75,8 @@ def get():
         elif (request.args.get('intake') != None):
             # in case the response from the function is "valid" will keep going with the processes of getting students
             results = run_statement('CALL get_all_students()')
-            
+            intake_students = organize_response(results)
+
         elif (request.args.get('student_id') == None):
             # in case the response from the function is "valid" will keep going with the processes of getting students
             results = run_statement('CALL get_all_students()')
