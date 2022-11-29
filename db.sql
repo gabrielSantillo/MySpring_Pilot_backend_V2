@@ -31,7 +31,7 @@ CREATE TABLE `application_status` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `application_status_FK` (`student_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `application_status` (
 
 LOCK TABLES `application_status` WRITE;
 /*!40000 ALTER TABLE `application_status` DISABLE KEYS */;
+INSERT INTO `application_status` VALUES (3,17,1,'2022-11-04','With LOC. Wanting for the LOA','2022-11-29 14:26:45');
 /*!40000 ALTER TABLE `application_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +129,7 @@ CREATE TABLE `consultant_session` (
 
 LOCK TABLES `consultant_session` WRITE;
 /*!40000 ALTER TABLE `consultant_session` DISABLE KEYS */;
-INSERT INTO `consultant_session` VALUES (4,1,'21b87046f930e7454593b8cabe7223a801b855c17e13b9cc7b21a35d4d5922e6','2022-11-29 14:15:27','2022-11-22 14:25:38');
+INSERT INTO `consultant_session` VALUES (4,1,'21b87046f930e7454593b8cabe7223a801b855c17e13b9cc7b21a35d4d5922e6','2022-11-29 15:47:57','2022-11-22 14:25:38');
 /*!40000 ALTER TABLE `consultant_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,17 +187,18 @@ CREATE TABLE `student` (
   `contract_date` date DEFAULT NULL,
   `english_level` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
   `app_form` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
-  `intake` date DEFAULT NULL,
+  `intake` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
   `program_id` int(10) unsigned DEFAULT NULL,
-  `consultant_id` int(10) unsigned NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `consultant_id` int(10) unsigned NOT NULL DEFAULT 1,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `student_un` (`email`),
-  KEY `student_FK` (`consultant_id`),
-  KEY `student_FK_1` (`program_id`),
-  CONSTRAINT `student_FK` FOREIGN KEY (`consultant_id`) REFERENCES `consultant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `student_FK_1` FOREIGN KEY (`program_id`) REFERENCES `programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  KEY `student_FK` (`program_id`),
+  KEY `student_FK_1` (`consultant_id`),
+  CONSTRAINT `student_FK` FOREIGN KEY (`program_id`) REFERENCES `programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `student_FK_1` FOREIGN KEY (`consultant_id`) REFERENCES `consultant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +207,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (17,'Gabriel','Santillo','gabriel@myspringintercambio.com','*578E21D5C3CAC6E0B2A310395476B171B3A4ADEB','8d9c989e972444e599285e3ae9804fc8','15878880975','1996-06-11','M',1,NULL,NULL,NULL,NULL,NULL,NULL,1,'2022-11-22 18:11:31');
+INSERT INTO `student` VALUES (17,'Gabriel','Santillo','gabriel@myspringintercambio.com','*578E21D5C3CAC6E0B2A310395476B171B3A4ADEB','8d9c989e972444e599285e3ae9804fc8','15878880975','1996-06-11','M',1,1,'2022-11-05','IELTS 6.5','AB','fall 2023','2023-09-01',1,1,'2022-11-29 15:59:18'),(18,'Natalia','Fernandes do Nascimento','natalia@myspringintercambio.com','*3330B6D8247767210E5CA1B17CED172889AFFB5D','8240e12c5ab84fedb993a3e0b8b594ce','1587775190','1985-06-14','M',1,1,'2022-11-23','DUOLINGO 120','AB','winter 2024','2024-01-01',1,1,'2022-11-29 15:59:18');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,7 +256,7 @@ CREATE TABLE `student_session` (
   UNIQUE KEY `student_session_un` (`token`),
   KEY `student_session_FK` (`student_id`),
   CONSTRAINT `student_session_FK` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,7 +265,7 @@ CREATE TABLE `student_session` (
 
 LOCK TABLES `student_session` WRITE;
 /*!40000 ALTER TABLE `student_session` DISABLE KEYS */;
-INSERT INTO `student_session` VALUES (13,17,'16928e31ce423423d825da542c15022ba6147b8ec311cf33b7113c67217b1ab3','2022-11-23 18:03:55','2022-11-22 18:11:31');
+INSERT INTO `student_session` VALUES (13,17,'16928e31ce423423d825da542c15022ba6147b8ec311cf33b7113c67217b1ab3','2022-11-29 15:25:57','2022-11-22 18:11:31'),(14,18,'44959a375afb4fa4c0c0d89d61028b2496924125f8cddf225a789457cf40ccac','2022-11-29 15:07:08','2022-11-29 15:04:27');
 /*!40000 ALTER TABLE `student_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +296,7 @@ CREATE TABLE `visa` (
 
 LOCK TABLES `visa` WRITE;
 /*!40000 ALTER TABLE `visa` DISABLE KEYS */;
-INSERT INTO `visa` VALUES (1,17,1,'2022-11-03',0,'Immiwise','2022-11-29 14:13:23');
+INSERT INTO `visa` VALUES (1,17,1,'2022-11-03',1,'Immiwise','2022-11-29 14:13:23');
 /*!40000 ALTER TABLE `visa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1518,4 +1520,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-29 14:16:01
+-- Dump completed on 2022-11-29 16:02:34
