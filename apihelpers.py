@@ -99,11 +99,11 @@ def token_validation_student(token):
 
 
 def organize_response(response):
-    orders = []
-    ids = []
+    students = []
+    intakes = []
 
     for data in response:
-        if (data['id'] in ids):
+        if (data['intake'] in intakes):
             menu_item = {
                 'name': data['name'],
                 'price': data['price'],
@@ -111,22 +111,28 @@ def organize_response(response):
                 'description': data['description'],
                 'image_url': data['image_url']
             }
-            item['menu_items'].append(menu_item)
+            student['student'].append(menu_item)
         else:
-            ids.append(data['id'])
+            intakes.append(data['intake'])
 
-            item = {
-                'id': data['id'],
-                'restaurant_id': data['restaurant_id'],
-                'is_confirmed': data['is_confirmed'],
-                'is_complete': data['is_complete'],
-                'menu_items': [{
-                    'name': data['name'],
-                    'price': data['price'],
-                    'menu_item_id': data['menu_item_id'],
-                    'description': data['description'],
-                    'image_url': data['image_url']
+            student = {
+                'intake': data['intake'],
+                'students': [{
+                    'student_id': data['student_id'],
+                    'first_name': data['first_name'],
+                    'last_name': data['last_name'],
+                    'email': data['email'],
+                    'cell_number': data['cell_number'],
+                    'marital_status': data['marital_status'],
+                    'contract_signed': data['contract_signed'],
+                    'contract_date': data['contract_date'],
+                    'english_level': data['english_level'],
+                    'app_form': data['app_form'],
+                    'intake': data['intake'],
+                    'program_id': data['program_id'],
+                    'consultant_first_name': data['consultant_first_name'],
+                    'consultant_last_name': data['consultant_last_name']
                 }]
             }
-            orders.append(item)
-    return orders
+            students.append(student)
+    return students

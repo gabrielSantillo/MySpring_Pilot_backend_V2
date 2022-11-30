@@ -56,42 +56,19 @@ def get():
     # calling the function that will verify if this token is valid
     valid_token = token_validation(request.headers.get('token'))
     if (valid_token == "valid"):
+        # in case the response from the function is "valid" will keep going with the processes of getting students
+        results = run_statement('CALL get_all_students()')
+        
 
-        if (request.args.get('student_id') != None):
-            # in case the response from the function is "valid" will keep going with the processes of getting appointments
-            results = run_statement('CALL get_student_by_id(?)', [
-                                    request.args.get('student_id')])
-
-            # if results is a list and his length is different than zero return 200
-            if (type(results) == list and len(results) != 0):
-                return make_response(json.dumps(results, default=str), 200)
-            # else return 500, internal error
-            elif (type(results) == list and len(results) == 0):
-                return make_response(json.dumps("Wrong token", default=str), 400)
-            elif (results.startswith('Incorrect integer value:')):
-                return make_response(json.dumps(results, default=str), 400)
-            else:
-                return make_response(json.dumps("Sorry, an error has occurred.", default=str), 500)
-        elif (request.args.get('intake') != None):
-            # in case the response from the function is "valid" will keep going with the processes of getting students
-            results = run_statement('CALL get_all_students()')
-            intake_students = organize_response(results)
-
-        elif (request.args.get('student_id') == None):
-            # in case the response from the function is "valid" will keep going with the processes of getting students
-            results = run_statement('CALL get_all_students()')
-
-            # if results is a list and his length is different than zero return 200
-            if (type(results) == list and len(results) != 0):
-                return make_response(json.dumps(results, default=str), 200)
-            # else return 500, internal error
-            elif (type(results) == list and len(results) == 0):
-                return make_response(json.dumps("Wrong token", default=str), 400)
-            else:
-                return make_response(json.dumps("Sorry, an error has occurred.", default=str), 500)
+        # if results is a list and his length is different than zero return 200
+        if (type(results) == list and len(results) != 0):
+            by_intake = organize_response(results)
+            return make_response(json.dumps(by_intake, default=str), 200)
+        elif (type(results) == list and len(results) == 0):
+            return make_response(json.dumps("Wrong token", default=str), 400)
         else:
-            make_response(json.dumps(
-                "Only integer numbers are accepted.", default=str), 400)
+            return make_response(json.dumps("Sorry, an error has occurred.", default=str), 500)
+            
     # if the response from the validation function is "invalid" means that the token expired
     elif (valid_token == "invalid"):
         return make_response(json.dumps("TOKEN EXPIRED", default=str), 403)
